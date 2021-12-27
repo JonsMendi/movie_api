@@ -1,0 +1,18 @@
+URL: /
+Timestamp: Mon Dec 27 2021 20:38:23 GMT+0100 (Central European Standard Time)
+
+URL: /js/server.js
+Timestamp: Mon Dec 27 2021 20:38:23 GMT+0100 (Central European Standard Time)
+
+URL: /favicon.ico
+Timestamp: Mon Dec 27 2021 20:38:23 GMT+0100 (Central European Standard Time)
+
+URL: /documentation
+Timestamp: Mon Dec 27 2021 20:38:44 GMT+0100 (Central European Standard Time)
+
+URL: /js/server.js
+Timestamp: Mon Dec 27 2021 20:38:44 GMT+0100 (Central European Standard Time)
+
+URL: /favicon.ico
+Timestamp: Mon Dec 27 2021 20:38:44 GMT+0100 (Central European Standard Time)
+
