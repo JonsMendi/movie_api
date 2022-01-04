@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}  
+
+th, td {
+    padding: 10px;
+}
+
+.doc-table-caps {
+    background-color: white;
+}
+
+.doc-table {
+    display: inline-block;
+    background-color: black;
+    text-align: left;
+    margin-top: 50px;
+};
+
