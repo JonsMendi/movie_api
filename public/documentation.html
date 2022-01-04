@@ -5,13 +5,113 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>myMov[i]es</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
   </head>
   <body>
-    <h1>Hello, Documentation!</h1>
-    <p>To build the server-side component of a “movies” web application. The web
-        application will provide users with access to information about different
-        movies, directors, and genres. Users will be able to sign up, update their
-        personal information, and create a list of their favorite movies.</p>
+    <div class="doc-title">
+      <h1>Documentation</h1>
+      <p>To build the server-side component of a “movies” web application. The web
+          application will provide users with access to information about different
+          movies, directors, and genres. Users will be able to sign up, update their
+          personal information, and create a list of their favorite movies.
+      </p>
+    </div>
+    <div>
+      <table class="doc-table">
+        <tr class="doc-table-caps">
+          <th>Request</th>
+          <th>URL</th>
+          <th>HTTP Method</th>
+          <th>Request body data format</th>
+          <th>Response body data format</th>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Return a List of all movies to the user</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object returning all the movies</td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
+          <td>/movies/:title</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object returning the searched Movie</td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
+          <td>movies/genre/:genre</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object returning the searched Genre</td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Return data about a director (bio, birth year, death year) by name</td>
+          <td>/movies/directors/:directorName</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object returning the Director information</td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Allow new users to register</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>A JSON object holding data about the user to add, structured like:
+            {
+            name : "João",
+            favoriteMovies : [...]
+            }
+          </td>
+          <td>A JSON object holding data about the student that was added, including an ID:
+            {
+            name : "João",
+            favoriteMovies : [...],
+            id : 823fb212
+            }
+          </td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Allow users to update their user info (username)</td>
+          <td>/users/:id</td>
+          <td>PUT</td>
+          <td>A JSON object holding data about the info to update, structured like:
+            {
+            name : "Luis",
+            favoriteMovies : [...]
+            }
+          </td>
+          <td>A JSON object holding data about the student updated info, structured like:
+            {
+            name : "Luis",
+            favoriteMovies : [...],
+            }
+          </td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Allow users to add a movie to their list of favorites</td>
+          <td>/users/:id/:movieTitle</td>
+          <td>POST</td>
+          <td>None</td>
+          <td>A text message indicating that the movie was successfully added to the profile</td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Allow users to remove a movie from their list of favorites</td>
+          <td>/users/:id/:movieTitle</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>A text message indicating that the movie was successfully removed from the profile</td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Allow existing users to deregister</td>
+          <td>/users/:id</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>A text message indicating that the profile was successfully removed</td>
+        </tr>
+      </table>
+    </div>
+
     <script src="../index.js"></script>
   </body>
 </html>
