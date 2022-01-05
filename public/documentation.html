@@ -41,14 +41,14 @@
         </tr>
         <tr class="doc-table-caps">
           <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-          <td>movies/genre/:genre</td>
+          <td>/genre/:genre</td>
           <td>GET</td>
           <td>None</td>
           <td>A JSON object returning the searched Genre</td>
         </tr>
         <tr class="doc-table-caps">
           <td>Return data about a director (bio, birth year, death year) by name</td>
-          <td>/movies/directors/:directorName</td>
+          <td>/directors/:directorName</td>
           <td>GET</td>
           <td>None</td>
           <td>A JSON object returning the Director information</td>
@@ -90,14 +90,14 @@
         </tr>
         <tr class="doc-table-caps">
           <td>Allow users to add a movie to their list of favorites</td>
-          <td>/users/:id/:movieTitle</td>
+          <td>/users/:id/movies/:movieId</td>
           <td>POST</td>
           <td>None</td>
           <td>A text message indicating that the movie was successfully added to the profile</td>
         </tr>
         <tr class="doc-table-caps">
           <td>Allow users to remove a movie from their list of favorites</td>
-          <td>/users/:id/:movieTitle</td>
+          <td>/users/:id/movies/:movieId</td>
           <td>DELETE</td>
           <td>None</td>
           <td>A text message indicating that the movie was successfully removed from the profile</td>
