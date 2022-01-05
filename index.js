@@ -138,28 +138,28 @@ app.put('/users/:id', (req, res) => {
 });
 
 //CREATE 'CRUD'
-app.post('/users/:id/:movieTitle', (req, res) => {
-    const { id, movieTitle } = req.params;
+app.post('/users/:id/movies/:movieId', (req, res) => {
+    const { id, movieId } = req.params;
 
     let user = users.find( user => user.id == id );
 
     if(user) {
-        user.favoriteMovies.push(movieTitle);
-        res.status(200).send(`The ${movieTitle} as been added to ${users[0].name} profile`);
+        user.favoriteMovies.push(movieId);
+        res.status(200).send(`The ${movieId} as been added to the profile`);
     } else {
         res.status(400).send('No movie with such name!');
     }
 });
 
 //DELETE 'CRUD'
-app.delete('/users/:id/:movieTitle', (req, res) => {
-    const { id, movieTitle } = req.params;
+app.delete('/users/:id/movies/:movieId', (req, res) => {
+    const { id, movieId } = req.params;
 
     let user = users.find( user => user.id == id );
 
     if(user) {
-        user.favoriteMovies = user.favoriteMovies.filter( title => title !== movieTitle);
-        res.status(200).send(`The ${movieTitle} as been removed from ${users[0].name} profile`);
+        user.favoriteMovies = user.favoriteMovies.filter( title => title !== movieId);
+        res.status(200).send(`The ${movieId} as been removed from the profile`);
     } else {
         res.status(400).send('No movie has been removed!');
     }
@@ -197,7 +197,7 @@ app.get('/movies/:title', (req, res) => {
 });
 
 //READ 'CRUD'
-app.get('/movies/genre/:genre', (req, res) => {
+app.get('/genre/:genre', (req, res) => {
     const { genre } = req.params;
     const genreName = topMovies.find(movies => movies.Genre === genre).Genre;//Just returning 'Drama' Instead of 'Genre': 'Drama'(Need to fix)
 
@@ -209,7 +209,7 @@ app.get('/movies/genre/:genre', (req, res) => {
 });
 
 //READ 'CRUD'
-app.get('/movies/directors/:directorName', (req, res) => {
+app.get('/directors/:directorName', (req, res) => {
     const { directorName } = req.params;
     const director = topMovies.find(movies => movies.Director.Name === directorName).Director;
 
