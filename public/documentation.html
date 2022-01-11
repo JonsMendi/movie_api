@@ -34,80 +34,191 @@
         </tr>
         <tr class="doc-table-caps">
           <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
-          <td>/movies/:title</td>
+          <td>/movies/:Title</td>
           <td>GET</td>
           <td>None</td>
-          <td>A JSON object returning the searched Movie</td>
+          <td>A JSON object holding the requested information, example:<br>
+            {<br>
+              Title: 'Pulp Fiction',<br>
+              Description: 'Once upon a time...',<br>
+              ReleaseYear: '1994'<br>
+              Genre: {<br>
+                  Name: 'Action',<br>
+                  Description: 'Action is a genre where...'<br>
+              },<br>
+              Director: {<br>
+                  Name: 'Quentin Tarantino',<br>
+                  Bio: 'Quentin Tarantino is a rewarded director that...',<br>
+                  Movies: ['ObjectID'],<br>
+                  Birth: '1214',<br>
+                  Death: '2067'<br>
+              },<br>
+              ImageUrl: 'https://imdb.com/certaimovie',<br>
+              Actors: ['ObjectiID'],<br>
+              Rating: '9',<br>
+              Featured: True<br>
+            }</td>
         </tr>
         <tr class="doc-table-caps">
           <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-          <td>/genre/:genre</td>
+          <td>/genre/:GenreName</td>
           <td>GET</td>
           <td>None</td>
-          <td>A JSON object returning the searched Genre</td>
+          <td>A JSON object returning the searched Genre, example:<br>
+            {<br>
+              "Name": "Crime",<br>
+              "Description": "Crime genre describe narratives that..."<br>
+          }<br>
+          </td>
         </tr>
         <tr class="doc-table-caps">
           <td>Return data about a director (bio, birth year, death year) by name</td>
-          <td>/directors/:directorName</td>
+          <td>/directors/:Director</td>
           <td>GET</td>
           <td>None</td>
-          <td>A JSON object returning the Director information</td>
+          <td>A JSON object returning the Director information, example:<br>
+            {<br>
+              "Name": "Quentin Tarantino",<br>
+              "Bio": "Quentin Jerome Tarantino was born in Knoxville...",<br>
+              "Movies": [<br>
+                  "ObjectID",<br>
+                  "ObjectID"<br>
+              ],<br>
+              "Birth": "1963",<br>
+              "Death": "Alive"<br>
+          }</td>
         </tr>
+        <tr class="doc-table-caps">
+          <td>Allow to see all users</td>
+          <td>/users</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object holding data about all users, structured like:<br>
+            {<br>
+              Username: "João",<br>
+              Password: "password123",<br>
+              Email: "joaoemail@exmail.de",<br>
+              Birth: "1990-06-01",<br>
+              FavoriteMovies: [],<br>
+              _id: "323849def3j4hb32h4",<br>
+              __v: 0<br>
+              }<br>
+              {<br>
+                Username: "JoãoLala",<br>
+                Password: "password456",<br>
+                Email: "joaoemaillala@exmail.de",<br>
+                Birth: "1990-06-02",<br>
+                FavoriteMovies: [],<br>
+                _id: "323849dsdfsdfhb32h4",<br>
+                __v: 0<br>
+                }..  
+          </td>
+          <tr class="doc-table-caps">
+            <td>Allow to see a specific user</td>
+            <td>/users/Username</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about the user, structured like:<br>
+              {<br>
+                Username: "João",<br>
+                Password: "password123",<br>
+                Email: "joaoemail@exmail.de",<br>
+                Birth: "1990-06-01",<br>
+                FavoriteMovies: [],<br>
+                _id: "323849def3j4hb32h4",<br>
+                __v: 0<br>
+                }<br>
+            </td>
         <tr class="doc-table-caps">
           <td>Allow new users to register</td>
           <td>/users</td>
           <td>POST</td>
-          <td>A JSON object holding data about the user to add, structured like:
-            {
-            name : "João",
-            favoriteMovies : [...]
+          <td>A JSON object holding data about the user to add, structured like:<br>
+            {<br>
+            Username: "João",<br>
+            Password: "password123",<br>
+            Email: "joaoemail@exmail.de",<br>
+            Birth: "1990-06-01"<br>
             }
           </td>
-          <td>A JSON object holding data about the student that was added, including an ID:
-            {
-            name : "João",
-            favoriteMovies : [...],
-            id : 823fb212
+          <td>A JSON object holding data about the student that was added, including an ID:<br>
+            {<br>
+            Username: "João",<br>
+            Password: "password123",<br>
+            Email: "joaoemail@exmail.de",<br>
+            Birth: "1990-06-01",<br>
+            FavoriteMovies: [],<br>
+            _id: "323849def3j4hb32h4",<br>
+            __v: 0<br>
             }
           </td>
         </tr>
         <tr class="doc-table-caps">
-          <td>Allow users to update their user info (username)</td>
-          <td>/users/:id</td>
+          <td>Allow users to update their user info</td>
+          <td>/users/:Username</td>
           <td>PUT</td>
-          <td>A JSON object holding data about the info to update, structured like:
-            {
-            name : "Luis",
-            favoriteMovies : [...]
-            }
+          <td>A JSON object holding data about the info to update, structured like:<br>
+            {<br>
+            Username: "JoãoPimpão"<br>
+            }<br>
           </td>
-          <td>A JSON object holding data about the student updated info, structured like:
-            {
-            name : "Luis",
-            favoriteMovies : [...],
-            }
+          <td>A JSON object holding data about the student updated info, structured like:<br>
+            {<br>
+              Username: "JoãoPimpão",<br>
+              Password: "password123",<br>
+              Email: "joaoemail@exmail.de",<br>
+              Birth: "1990-06-01",<br>
+              FavoriteMovies: [],<br>
+              _id: "323849def3j4hb32h4",<br>
+              __v: 0<br>
+              }
           </td>
         </tr>
         <tr class="doc-table-caps">
           <td>Allow users to add a movie to their list of favorites</td>
-          <td>/users/:id/movies/:movieId</td>
+          <td>/users/:Username/movies/:MovieId</td>
           <td>POST</td>
           <td>None</td>
           <td>A text message indicating that the movie was successfully added to the profile</td>
         </tr>
         <tr class="doc-table-caps">
           <td>Allow users to remove a movie from their list of favorites</td>
-          <td>/users/:id/movies/:movieId</td>
+          <td>/users/:Username/movies/:MovieId</td>
           <td>DELETE</td>
           <td>None</td>
           <td>A text message indicating that the movie was successfully removed from the profile</td>
         </tr>
         <tr class="doc-table-caps">
           <td>Allow existing users to deregister</td>
-          <td>/users/:id</td>
+          <td>/users/:Username</td>
           <td>DELETE</td>
           <td>None</td>
           <td>A text message indicating that the profile was successfully removed</td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Return a List of all actors to the user</td>
+          <td>/actors/</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object returning all the actors</td>
+        </tr>
+        <tr class="doc-table-caps">
+          <td>Return a List of all actors to the user</td>
+          <td>/actors/:Actor</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object returning the actor, structured like this:<br>
+            {<br>
+              "_id": "61d878bf02d3b1547f5f9aad",<br>
+              "Name": "Brad Pitt",<br>
+              "Bio": "An actor and producer known as much...",<br>
+              "Movies": [<br>
+                  "61d8735f02d3b1547f5f9aaa",<br>
+                  "61d8730402d3b1547f5f9aa7"<br>
+              ],
+              "Birth": "1963",<br>
+              "Death": "Alive"<br>
+          },</td>
         </tr>
       </table>
     </div>
