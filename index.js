@@ -3,18 +3,34 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     uuid = require('uuid'),
     mongoose = require('mongoose'),
+    cors = require('cors'),//Cors is a Cross-Origin Resource Sharing. He extend HTTP requests, giving them new headers that include their domain. The receiving server can then identify where the request is coming from and allow or disallow the request from going through.
     Models = require('./models.js');
 const { update } = require('lodash');
 const app = express();
 const Movies = Models.Movie;
 const Users = Models.User;
 const Actors = Models.Actor;
+const { check, validationResult } = require('express-validator');//Package for Server-side Validation security. Will be added in each needed endpoint.
 
 mongoose.connect('mongodb://localhost:27017/myMoviesDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Under Bodyparser transforms the data insert by the user to be transformed in JSON. Like these the input from the user will be valid/processed by the server until the Data Base.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//Under to define who can have access to the API.
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+app.use(cors({
+    origin: (origin, callback) => {
+        if(!origin) return callback(null, true);
+        if(allowedOrigins.indexOf(origin) === -1){
+            let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+            return callback(new Error(message ), false);
+        }
+        return callback(null, true);
+    }
+}));
+
 //Under is the 'auth.js' file that contains the Login Authentication, requesting using basic HTTP authentication and generate a JWT for the user.
 let auth = require('./auth')(app);
 const passport = require('passport');
@@ -47,16 +63,29 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false}), (re
 });
 
 //CREATE 'CRUD' (Creates a new User)
-app.post('/users', (req, res) => {
-    Users.findOne({ Username: req.body.Username })
+app.post('/users', [//Under 'checks' for Validation logic for the request.
+    check('Username', 'Username is required.').isLength({min: 5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required.').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid.').isEmail()
+], (req, res) => {
+    //Under checks the validation object for errors.
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    //Under, 'hashedPassword' creating variable that imports the bcrypt that 'hashes' the password.
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username })// Search to see if a user with the requested username already exists
         .then((user) => {
-            if (user) {
+            if (user) {//If the user is found, send a response that it already exists
                 return res.status(400).send(req.body.Username + 'already exists');
             } else {
                 Users
                     .create({
                         Username: req.body.Username,
-                        Password: req.body.Password,
+                        Password: hashedPassword,//using the hashedPassword variable to hash the password.
                         Email: req.body.Email,
                         Birth: req.body.Birth
                     })
@@ -64,7 +93,7 @@ app.post('/users', (req, res) => {
                     .catch((error) => {
                         console.log(error);
                         res.status(500).send('Error: ' + error);
-                    })
+                    });
             }
         })
         .catch((error) => {
@@ -74,7 +103,18 @@ app.post('/users', (req, res) => {
 });
 
 //UPDATE 'CRUD' (Update a User field)
-app.put('/users/:Username', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.put('/users/:Username', [//Under 'checks' for Validation logic for the request.
+check('Username', 'Username is required.').isLength({min: 5}),
+check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+check('Password', 'Password is required.').not().isEmpty(),
+check('Email', 'Email does not appear to be valid.').isEmail()
+], passport.authenticate('jwt', { session: false}), (req, res) => {
+    //Under checks the validation object for errors.
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     Users.findOneAndUpdate({ Username: req.params.Username }, 
         { $set: {
             Username: req.body.Username,
