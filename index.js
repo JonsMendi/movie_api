@@ -1,23 +1,22 @@
 const express = require('express'),
-    morgan = require('morgan'),
-    bodyParser = require('body-parser'),
-    uuid = require('uuid'),
-    mongoose = require('mongoose'),
-    cors = require('cors'),//Cors is a Cross-Origin Resource Sharing. He extend HTTP requests, giving them new headers that include their domain. The receiving server can then identify where the request is coming from and allow or disallow the request from going through.
+    morgan = require('morgan'), //Morgan is an dependence that register any movements in the URL's by the users. Morgan register and keep the info.
+    bodyParser = require('body-parser'),//Bodyparser transforms the data insert by the user to be transformed in JSON. Like these the input from the user will be valid/processed by the server until the Data Base.
+    uuid = require('uuid'),//uuid generated automatically a new id to a profile.
+    mongoose = require('mongoose'),//mongoose(models.js) is a object modeling tool. It translate the code and its representation (through defining a Schema) from MongoDB to Node.js.
+    cors = require('cors'), //Cors is a Cross-Origin Resource Sharing. He extend HTTP requests, giving them new headers that include their domain. The receiving server can then identify where the request is coming from and allow or disallow the request from going through.
     Models = require('./models.js'),
-    dotenv = require('dotenv').config();
-const { update } = require('lodash');
+    dotenv = require('dotenv').config();//dotenv is a module that generates Environments Variables through a .env file. Creating variables with private values.
+const { update } = require('lodash');//A modern JavaScript utility library delivering modularity, performance & extras.
 const app = express();
 const Movies = Models.Movie;
 const Users = Models.User;
 const Actors = Models.Actor;
 const { check, validationResult } = require('express-validator');//Package for Server-side Validation security. Will be added in each needed endpoint.
 
+//Under the connections access to the DataBase. At the moment is connected to MongoDB Atlas (Live). The commented under is the local location.
 //mongoose.connect('mongodb://localhost:27017/myMoviesDB', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-//mongoose.connect('mongodb+srv://JonsMendi:Jborgesm5995@cluster0.pukux.mongodb.net/myMoviesDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
-//Under Bodyparser transforms the data insert by the user to be transformed in JSON. Like these the input from the user will be valid/processed by the server until the Data Base.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -38,15 +37,16 @@ app.use(cors({
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');//this file we will configure the Passport 'strategies'.
-//Under Morgan is an dependence that register any movements in the URL's by the users. Morgan register and keep the info.
-app.use(morgan('common'));
+
 //Under Express Static allows to send automatically to the user files(static, is this case 'documentation.html') that are inside of a folder('public')
 app.use(express.static('public'));
-
+app.use(morgan('common'));
 
 app.get('/', (req, res) => {
     res.send('Welcome to myMovies!');
 });
+
+//UNDER start the ENDPOINTS
 
 //READ 'CRUD' (Get all the users)
 app.get('/users', passport.authenticate('jwt', { session: false}), (req, res) => {
@@ -242,6 +242,8 @@ app.get('/actors/:ActorName', passport.authenticate('jwt', { session: false}), (
             res.status(500).send('Error :' + err);
         });
 });
+
+//HERE finish the ENDPOINTS
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
