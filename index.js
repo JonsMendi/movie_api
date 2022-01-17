@@ -12,7 +12,8 @@ const Users = Models.User;
 const Actors = Models.Actor;
 const { check, validationResult } = require('express-validator');//Package for Server-side Validation security. Will be added in each needed endpoint.
 
-mongoose.connect('mongodb://localhost:27017/myMoviesDB', { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect('mongodb://localhost:27017/myMoviesDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://JonsMendi:Jborgesm5995@cluster0.pukux.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Under Bodyparser transforms the data insert by the user to be transformed in JSON. Like these the input from the user will be valid/processed by the server until the Data Base.
 app.use(bodyParser.json());
