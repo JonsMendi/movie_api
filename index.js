@@ -4,7 +4,8 @@ const express = require('express'),
     uuid = require('uuid'),
     mongoose = require('mongoose'),
     cors = require('cors'),//Cors is a Cross-Origin Resource Sharing. He extend HTTP requests, giving them new headers that include their domain. The receiving server can then identify where the request is coming from and allow or disallow the request from going through.
-    Models = require('./models.js');
+    Models = require('./models.js'),
+    dotenv = require('dotenv').config();
 const { update } = require('lodash');
 const app = express();
 const Movies = Models.Movie;
@@ -13,7 +14,8 @@ const Actors = Models.Actor;
 const { check, validationResult } = require('express-validator');//Package for Server-side Validation security. Will be added in each needed endpoint.
 
 //mongoose.connect('mongodb://localhost:27017/myMoviesDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect( process.env.myMoviesDBAtlas_connection, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect('mongodb+srv://JonsMendi:Jborgesm5995@cluster0.pukux.mongodb.net/myMoviesDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Under Bodyparser transforms the data insert by the user to be transformed in JSON. Like these the input from the user will be valid/processed by the server until the Data Base.
 app.use(bodyParser.json());
