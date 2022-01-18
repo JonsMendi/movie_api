@@ -67,9 +67,11 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false}), (re
 
 //CREATE 'CRUD' (Creates a new User)
 app.post('/users', [//Under 'checks' for Validation logic for the request.
-    check('Username', 'Username is required.').isLength({min: 5}),
+    check('Username', 'Username is required.').not().isEmpty(),
+    check('Username', 'Username should have at least 5 characters.').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required.').not().isEmpty(),
+    check('Password', 'Password should have at least 5 characters.').isLength({min: 5}),
     check('Email', 'Email does not appear to be valid.').isEmail()
 ], (req, res) => {
     //Under checks the validation object for errors.
@@ -83,7 +85,7 @@ app.post('/users', [//Under 'checks' for Validation logic for the request.
     Users.findOne({ Username: req.body.Username })// Search to see if a user with the requested username already exists
         .then((user) => {
             if (user) {//If the user is found, send a response that it already exists
-                return res.status(400).send(req.body.Username + 'already exists');
+                return res.status(400).send(req.body.Username + ' already exists');
             } else {
                 Users
                     .create({
@@ -107,10 +109,12 @@ app.post('/users', [//Under 'checks' for Validation logic for the request.
 
 //UPDATE 'CRUD' (Update a User field)
 app.put('/users/:Username', [//Under 'checks' for Validation logic for the request.
-check('Username', 'Username is required.').isLength({min: 5}),
-check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-check('Password', 'Password is required.').not().isEmpty(),
-check('Email', 'Email does not appear to be valid.').isEmail()
+    check('Username', 'Username is required.').not().isEmpty(),
+    check('Username', 'Username should have at least 5 characters.').isLength({min: 5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required.').not().isEmpty(),
+    check('Password', 'Password should have at least 5 characters.').isLength({min: 5}),
+    check('Email', 'Email does not appear to be valid.').isEmail()
 ], passport.authenticate('jwt', { session: false}), (req, res) => {
     //Under checks the validation object for errors.
     let errors = validationResult(req);
@@ -203,7 +207,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false}), (req,
 });
 
 //READ 'CRUD' (Get Genre details by Genre)
-app.get('/genre/:GenreName', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.get('/genres/:GenreName', passport.authenticate('jwt', { session: false}), (req, res) => {
     Movies.findOne({ 'Genre.Name': req.params.GenreName })
         .then((movie) => {
             res.json(movie.Genre);
@@ -233,7 +237,7 @@ app.get('/actors', passport.authenticate('jwt', { session: false}), (req, res) =
 
 //READ 'CRUD'
 app.get('/actors/:ActorName', passport.authenticate('jwt', { session: false}), (req, res) => {
-    Actors.findOne({ 'Actor.Name': req.params.ActorName})
+    Actors.findOne({ Name: req.params.ActorName})
         .then((actor) => {
             res.json(actor);
         })
