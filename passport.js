@@ -15,21 +15,21 @@ passport.use(new LocalStrategy({
 }, (username, password, callback) => {
     Users.findOne({ Username: username}, (error, user) => {//If there’s a match, the callback function will be executed (this will be the login endpoint).
         if (error) {
-            console.log(error);
+            //console.log(error);
             return callback(error);
         }
 
         if (!user) {
-            console.log('incorrect username sister!');
+            //console.log('incorrect username sister!');
             return callback(null, false, {message: 'Incorrect username or password.'});
         }
         //Under, hash any password entered by the user when logging in before comparing it to the password stored in MongoDB.
         if (!user.validatePassword(password)) {
-            console.log('incorrect password');
+            //console.log('incorrect password');
             return callback(null, false, {message: 'Incorrect password.'});
         }
 
-        console.log('finished');
+        //console.log('finished');
         return callback(null, user);
     });
 }));
