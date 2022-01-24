@@ -1,8 +1,8 @@
 //This file contains the 'login' endpoint in order to implement basic HTTP authentication for login requests.
 //Because this endpoint is going to implement a special authentication measures for the request, we place here, in a separate file.
 //This code will will authenticate login requests using basic HTTP authentication and generate a JWT for the user.
-
-const jwtSecret = 'your_jwt_secret';// This has to be the same key used in the JWTStrategy.
+dotenv = require('dotenv').config();
+const jwtSecret = process.env.JWTSECRET;// This has to be the same key used in the JWTStrategy.
 
 const jwt = require('jsonwebtoken'),
     passport = require('passport');
