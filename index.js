@@ -94,7 +94,12 @@ app.post('/users', [//Under 'checks' for Validation logic for the request.
                         Email: req.body.Email,
                         Birth: req.body.Birth
                     })
-                    .then((user) => {res.status(201).json(user)})
+                    .then((user) => {res.status(201).json({
+                        Username: req.body.Username,
+                        id: user.id,
+                        Email: req.body.Email,
+                        Birth: req.body.Birth
+                    })})
                     .catch((error) => {
                         console.log(error);
                         res.status(500).send('Error: ' + error);
