@@ -195,7 +195,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
 });
 
 //READ 'CRUD' (Get all movies)
-app.get('/movies', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.get('/movies', /*passport.authenticate('jwt', { session: false}),*/ (req, res) => {
     Movies.find().then(movies => res.json(movies));
 });
 
