@@ -1,5 +1,3 @@
-const moment = require('moment')
-
 const mongoose = require('mongoose'),
     bcrypt = require('bcrypt');//this module will be imported for 'Hashing' the password.
 
@@ -30,7 +28,7 @@ let userSchema =  mongoose.Schema({
     Username: { type: String, required: true},
     Password: { type: String, required: true},
     Email: { type: String, required: true},
-    Birth: moment(Date).format(dd.mm.yyyy),
+    Birth: Date,
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie'}]
 });
 
