@@ -92,13 +92,13 @@ app.post('/users', [//Under 'checks' for Validation logic for the request.
                         Username: req.body.Username,
                         Password: hashedPassword,//using the hashedPassword variable to hash the password.
                         Email: req.body.Email,
-                        Birth: new Date(req.body.Birth)
+                        Birth: req.body.Birth
                     })
                     .then((user) => {res.status(201).json({
                         Username: req.body.Username,
                         id: user.id,
                         Email: req.body.Email,
-                        Birth: new Date(req.body.Birth)
+                        Birth: req.body.Birth
                     })})
                     .catch((error) => {
                         console.log(error);
