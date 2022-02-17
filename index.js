@@ -122,6 +122,7 @@ app.put('/users/:Username', [//Under 'checks' for Validation logic for the reque
     check('Email', 'Email does not appear to be valid.').isEmail()
 ], passport.authenticate('jwt', { session: false}), (req, res) => {
     //Under checks the validation object for errors.
+
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -141,6 +142,7 @@ app.put('/users/:Username', [//Under 'checks' for Validation logic for the reque
                 console.error(err);
                 res.status(500).send('Error: ' + err);
             } else {
+            
                 res.json(updatedUser);
             }
         }); 
