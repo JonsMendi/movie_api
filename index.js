@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Under to define who can have access to the API.
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'mymoviesjonsmendi.netlify.app'];
 app.use(cors({
     origin: (origin, callback) => {
         if(!origin) return callback(null, true);
