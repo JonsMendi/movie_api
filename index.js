@@ -111,21 +111,8 @@ app.post('/users', [//Under 'checks' for Validation logic for the request.
 });
 
 //UPDATE 'CRUD' (Update a User field)
-app.put('/users/:Username', [//Under 'checks' for Validation logic for the request.
-    check('Username', 'Username is required.').not().isEmpty(),
-    check('Username', 'Username should have at least 5 characters.').isLength({ min: 5 }),
-    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('Password', 'Password is required.').not().isEmpty(),
-    check('Password', 'Password should have at least 5 characters.').isLength({ min: 5 }),
-    check('Email', 'Email does not appear to be valid.').isEmail()
-], passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
     //Under checks the validation object for errors.
-
-    let errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
     Users.findOneAndUpdate({ Username: req.params.Username },
         {
             $set: {
