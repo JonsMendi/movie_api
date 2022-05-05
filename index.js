@@ -118,7 +118,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
         Username: req.body.Username,
         Password: req.body.Password,
         Email: req.body.Email,
-        Birthday: req.body.Birthday
+        Birth: req.body.Birth
       }
     },
   
