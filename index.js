@@ -112,27 +112,26 @@ app.post('/users', [//Under 'checks' for Validation logic for the request.
 
 //UPDATE 'CRUD' (Update a User field)
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-    //Under checks the validation object for errors.
-    Users.findOneAndUpdate({ Username: req.params.Username },
-        {
-            $set: {
-                Username: req.body.Username,
-                Password: req.body.Password,
-                Email: req.body.Email,
-                Birth: req.body.Birth
-            }
-        },
-        { new: true },// This statement makes sure that the updated document is returned
-        (err, updatedUser) => {
-            if (err) {
-                console.error(err);
-                res.status(500).send('Error: ' + err);
-            } else {
-
-                res.json(updatedUser);
-            }
-        });
-});
+    Users.findOneAndUpdate({ Username: req.params.Username }, {
+      $set:
+      {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      }
+    },
+  
+      { new: true },
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error' + err);
+        } else {
+          res.json(updatedUser);
+        }
+      });
+  })
 
 //UPDATE 'CRUD' (Add movie in User's FavoriteMovies list)
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
