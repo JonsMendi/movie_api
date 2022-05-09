@@ -111,33 +111,47 @@ app.post('/users', [//Under 'checks' for Validation logic for the request.
 });
 
 //UPDATE 'CRUD' (Update a User field)
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
+  [
+    // check for valid inputs using express-validator
+    check('Username', 'Username with at least 5 alphanumberic characters is required').isLength({ min: 5 }),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password may not be blank').optional().not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').optional().isEmail()
+  ], (req, res) => {
+    // send back list of errors if present, for parameters that were entered
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let hashedPassword;
+    if (req.body.Password) {
+      hashedPassword = Users.hashPassword(req.body.Password);
+    }
+
     Users.findOneAndUpdate({ Username: req.params.Username }, {
       $set:
       {
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birth: req.body.Birth
       }
     },
-  
-      { new: true },
-      (err, updatedUser) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send('Error' + err);
-        } else {
-          res.json(updatedUser);
-        }
+      { new: true })
+      .then((updatedUser) => {
+        res.status(201).json(updatedUser);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
       });
-  })
+  });
 
 //UPDATE 'CRUD' (Add movie in User's FavoriteMovies list)
-app.post(
-    "/users/:Username/movies/:MovieID",
-    passport.authenticate("jwt", { session: false }),
-    (req, res) => {
+app.post("/users/:Username/movies/:MovieID", passport.authenticate("jwt", { session: false }), (req, res) => {
       Users.findOneAndUpdate(
         { Username: req.params.Username },
         {
