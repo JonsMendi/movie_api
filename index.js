@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
-//Under to define who can have access to the API.
+//Under to define who can have access to the API. CHECK
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'http://localhost:4200', 'https://jonsmendi.github.io/myFlix-Angular-client/'];
 app.use(cors({
     origin: (origin, callback) => {
